@@ -6,7 +6,9 @@ import { getBolos } from '../../services/boloService';
 import CardProduto from '../../components/CardProduto/CardProduto';
 import Carrossel from '../../components/Carrossel/Carrossel';
 import Header from '../../components/Header/Header';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+// import Footer from '../../components/Footer/Footer';
+import jacquin404 from '../../assets/jacquin-not-found.png'
 
 //funções assincronas  
 
@@ -17,11 +19,16 @@ export default function Produtos() {
 
     const parametrosPesquisados = new URLSearchParams(location.search);
     const termo_pesquisado = parametrosPesquisados.get('query');
+    const { categoria } = useParams<{ categoria: string }>();
 
     const fetchBolos = async () => {
         try {
             const dados = await getBolos();
-            if (termo_pesquisado) { 
+            if (categoria) {
+                const dados_filtrados = dados.filter(b => b.categorias.some(cat => cat.toLowerCase() === categoria.toLowerCase()));
+                setBolos(dados_filtrados);
+            }
+            else if (termo_pesquisado) {
                 const dados_filtrados = dados.filter(b =>
                     b.nome.toLowerCase().includes(termo_pesquisado.toLowerCase()) ||
                     b.descricao.toLowerCase().includes(termo_pesquisado.toLowerCase()) ||
@@ -29,9 +36,8 @@ export default function Produtos() {
                 )
                 setBolos(dados_filtrados)
             } else {
-                setBolos
-                console.log("Dados retornados da API: ", dados);
-                setBolos(dados);
+                console.error("Nenhuma categoria ou termo de busca definidoS. ");
+                setBolos([]);
             }
         } catch (error) {
             console.error("Erro ao executar getbolos: ", error)
@@ -53,8 +59,9 @@ export default function Produtos() {
                     <div className="titulo">
                         <span>
                             {
-                            termo_pesquisado ? `Resultados para: ${termo_pesquisado}` :
-                            "Nome da categoria"
+                                categoria
+                                    ? categoria.charAt(0).toUpperCase() + categoria.slice(1).toLowerCase()
+                                    : termo_pesquisado ? `Resultados para: ${termo_pesquisado}` : "Nenhum filtro aplicado"
                             }
                         </span>
                         <hr />
@@ -72,7 +79,13 @@ export default function Produtos() {
                                 />
                             ))
                         }
-
+                        {
+                            bolos.length == 0 &&
+                            <div className='jacquin404'>
+                                <h3>0 termo pesquisado <br />não foi encontrado </h3>
+                                <img src= {jacquin404} alt="foto_termo_não_encontraado" />
+                            </div>
+                        }
                     </section>
                 </section>
 
