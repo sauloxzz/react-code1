@@ -5,7 +5,6 @@ import { Link } from "react-router-dom"
 import { categorias } from "../../data/categorias"
 import type { CardCategoriaProps } from "../../types/CardCategoriaProps"
 import CardCategoria from "../../components/CardCategoria/CardCategoria"
-import Footer from "../../components/Footer/Footer"
 
 
 export default function Home() {
@@ -35,7 +34,6 @@ export default function Home() {
                             </filter>
                         </defs>
                     </svg>
-
                     <img src={foto_jacquin} alt="foto do jacquin" />
                 </section>
 
@@ -58,7 +56,7 @@ export default function Home() {
                     <img src={whatasapp_logo} alt="icone do whatsapp" />
                 </Link>
             </main>
-            
+
         </>
     )
 }

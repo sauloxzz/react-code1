@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Produtos from "./pages/Produtos/Produtos"
 import Home from "./pages/Home/Home"
 import Footer from "./components/Footer/Footer"
+import Cadastro from "./pages/Cadastro/Cadastro"
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={< Home />} />
           <Route path="/produtos/:categoria" element={<Produtos />} />
           <Route path="/produtos/pesquisa" element={<Produtos />} />
+          <Route path="/produtos/cadastro" element={<Cadastro />} />
         </Routes>
       </BrowserRouter>
       <Footer />
