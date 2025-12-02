@@ -7,19 +7,6 @@
   ],
   "bolos": [
     {
-      "nome": "Chocolate Belga",
-      "categorias": [
-        "chocolate"
-      ],
-      "descricao": "Bolo macio de chocolate, aplicado granulado que traz crocância e um sabor irresistível.",
-      "imagens": [
-        "3458546845741.png"
-      ],
-      "id": "f5r1",
-      "preco": 50,
-      "peso": 1.5
-    },
-    {
       "nome": "Chocolate com Ninho",
       "categorias": [
         "destaques",
@@ -128,32 +115,6 @@
       "id": "8jy2",
       "preco": 42,
       "peso": 1.3
-    },
-    {
-      "nome": "Coco recheado",
-      "categorias": [
-        "coco"
-      ],
-      "descricao": "Massa fofinha de coco com recheio cremoso e envolvente, trazendo um sabor tropical irresistível.",
-      "imagens": [
-        "9786134582154.png"
-      ],
-      "id": "33u3",
-      "preco": 46.9,
-      "peso": null
-    },
-    {
-      "nome": "Bolo de casamento",
-      "categorias": [
-        "cerimonias"
-      ],
-      "descricao": "Elegante e saboroso, ideal para celebrar momentos únicos com um toque de doçura inesquecível.",
-      "imagens": [
-        "7852364781455.png"
-      ],
-      "id": "d7ty",
-      "preco": 120,
-      "peso": 2.5
     }
   ]
 }
