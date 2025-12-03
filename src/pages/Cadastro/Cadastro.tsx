@@ -2,7 +2,7 @@ import { useEffect, useState, type ChangeEvent } from "react";
 import Header from "../../components/Header/Header";
 import "./Cadastro.css";
 import type { Bolo } from "../../types/Bolo";
-import { deleteBolo, getBolos } from "../../services/boloService";
+import { deleteBolo, enviarFotoParaAPI, getBolos, postBolo } from "../../services/boloService";
 import { formatosService } from "../../services/formatosService";
 import ModalCustomizado from "../../components/ModalCustomizado/ModalCustomizado";
 import { NumericFormat } from "react-number-format";
@@ -26,7 +26,6 @@ export default function Cadastro() {
         setClicouNaLixeira(true);
         setIdParaDeletar(id);
     }
-
 
     const fecharModalComfirmacaoDelete = () => {
         setClicouNaLixeira(false);
@@ -77,10 +76,57 @@ export default function Cadastro() {
         }
     }
 
+    const limparDados = () => {
+        setNomeBolo("");
+        setCategorias("");
+        setImagem(undefined);
+        setPreco(undefined);
+        setPeso(undefined);
+        setDescricao("");
+        setBgImageInputColor(' #ffffff');
+    }
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (!nomeBolo || !categorias || !preco) {
+            exibirModalDeErroOuSucesso("Campos obrigatórios", "Por favor, preencha o nome, categorias e preço do bolo.");
+            return;
+        }
+
+        let uploadedFileName: string | undefined;
+
+        if (imagem) {
+            uploadedFileName = await enviarFotoParaAPI(imagem)
+            if (!uploadedFileName) {
+                exibirModalDeErroOuSucesso("Erro", "Cadatro cancelado por falha do upload da imagem .");
+                return;
+            }
+        }
+
+        const novoBolo: Bolo = {
+            id: undefined,
+            nome: nomeBolo,
+            descricao: descricao,
+            preco: preco,
+            peso: peso ?? null,
+            categorias: categorias.toLowerCase().split(",").map(c => c.trim()),
+            imagens: uploadedFileName ? [uploadedFileName] : []
+        }
+
+        try {
+            await postBolo(novoBolo);
+            exibirModalDeErroOuSucesso("Sucesso", "Novo bolo cadastrado com sucesso!");
+            fetchBolos();
+            limparDados();
+        } catch (error) {
+            exibirModalDeErroOuSucesso("Erro", "Erro ao cadastrar o novo bolo ");
+        }
+    }
+
     useEffect(() => {
         fetchBolos();
     }, [])
-
 
     return (
         <>
@@ -88,7 +134,7 @@ export default function Cadastro() {
             <main>
                 <h1 className="acessivel">tela de cadastro e listagem de produtos</h1>
 
-                <section className="container_cadastro">
+                <form onSubmit={handleSubmit} className="container_cadastro">
                     <h2>Cadastro</h2>
                     <hr />
 
@@ -119,7 +165,7 @@ export default function Cadastro() {
                                 <div className="img">
                                     <label htmlFor="img">
                                         <span>Imagem</span>
-                                        <div>
+                                        <div style={{ backgroundColor: bgImageInputColor }}>
                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 448 512">
                                                 <path fill="currentColor"
@@ -185,12 +231,12 @@ export default function Cadastro() {
                                 maxLength={200}
                                 placeholder="Escreva detalhes do bolo"
                                 value={descricao}
-                                onChange={ d => setDescricao(d.target.value)}
+                                onChange={d => setDescricao(d.target.value)}
                             />
                         </div>
                     </div>
                     <button className="BotaoSubmit" type="submit">Cadastrar</button>
-                </section>
+                </form>
 
                 <section className="container_lista">
                     <h2>Lista</h2>

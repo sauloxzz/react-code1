@@ -52,6 +52,7 @@ export default function Header() {
 
                         {/* 3/3: logo bolos do jacquin */}
                         <Nav.Item>
+                            <Link to={"/produtos/Cadastro"} title='Cadastrar Produtos' >
                             <svg className="logo" viewBox="0 0 143 67" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g filter="url(#filter0_d_5_328)">
                                     <path
@@ -73,6 +74,7 @@ export default function Header() {
                                     </filter>
                                 </defs>
                             </svg>
+                            </Link>
                         </Nav.Item>
 
                     </Nav>

@@ -115,6 +115,18 @@
       "id": "8jy2",
       "preco": 42,
       "peso": 1.3
+    },
+    {
+      "nome": "bolo de baunilha",
+      "descricao": "bolo de baunilha",
+      "preco": 22,
+      "peso": 2,
+      "categorias": [
+        "baunilha",
+        "festas"
+      ],
+      "imagens": [],
+      "id": "KXJn1sj"
     }
   ]
 }
